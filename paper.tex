@@ -1,0 +1,909 @@
+% THIS IS SIGPROC-SP.TEX - VERSION 3.1
+% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
+% APRIL 2009
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+%       1) The Permission Statement
+%       2) The Conference (location) Info information
+%       3) The Copyright Line with ACM data
+%       4) Page numbering
+% ---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@hq.acm.org
+%
+% For tracking purposes - this is V3.1SP - APRIL 2009
+
+\documentclass{icopust}
+%\usepackage[inline]{enumitem}
+%\usepackage{caption,subcaption}
+%\usepackage{hyperref}
+%\usepackage[round]{natbib}   % omit 'round' option if you prefer square brackets
+%\bibliographystyle{plainnat}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{xcolor}
+\usepackage[inline]{enumitem}
+
+%\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode}
+%\usepackage{algorithmicx}
+%\usepackage{algorithm2e}
+
+%\usepackage[authordate,bibencoding=auto,strict,backend=biber,natbib]{biblatex-chicago}
+\usepackage[round]{natbib}   % omit 'round' option if you prefer square brackets
+%\bibliographystyle{plainnat}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=1.8}
+\definecolor{darkgreen}{RGB}{0,127,0}
+
+\definecolor{wmle}{RGB}{0,0,0}
+\definecolor{wmlei}{RGB}{230,159,0}
+\definecolor{wave}{RGB}{86,180,233}
+\definecolor{wboot}{RGB}{204,121,167}
+\definecolor{wowa}{RGB}{0,158,115}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{cor}{Corollary}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Condition}
+\newtheorem{defn}{Definition}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\vecspan}{span}
+\DeclareMathOperator*{\affspan}{aff}
+\DeclareMathOperator*{\subG}{subG}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\E}{\mathbb{E}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\trans}[1]{{#1}^{\top}}
+
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Z}{Z}
+
+\newcommand{\w}{W}
+\newcommand{\what}{\hat\w}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\y}{y}
+
+\newcommand{\loss}{\ell}
+\newcommand{\reg}{r}
+
+%\newcommand{\plots}[1]{}
+\newcommand{\plots}[1]{#1}
+\newcommand{\ignore}[1]{}
+\newcommand{\fixme}[1]{\textbf{FIXME:} {#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{filecontents}{paper.bib}
+
+@article{scikit-learn,
+ title={Scikit-learn: Machine Learning in {P}ython},
+ author={Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V.
+         and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P.
+         and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and
+         Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+ journal={Journal of Machine Learning Research},
+ volume={12},
+ pages={2825--2830},
+ year={2011}
+}
+
+@article{kddcup2012,
+  author={Yanzhi Niu and Yi Wang and Gordon Sun and Aden Yue and Brian Dalessandro and Claudia Perlich and Ben Hamner},
+  title = {The Tencent Dataset and {KDD}-Cup'12},
+  howpublished = {URL \url{http://www.kddcup2012.org/c/kddcup2012-track2}},
+  year = {2012}
+}
+
+@book{lehmann1999elements,
+  title={Elements of large-sample theory},
+  author={Lehmann, Erich Leo},
+  year={1999},
+  publisher={Springer Science \& Business Media}
+}
+
+@inproceedings{merugu2003privacy,
+  title={Privacy-preserving distributed clustering using generative models},
+  author={Merugu, Srujana and Ghosh, Joydeep},
+  booktitle={Data Mining, 2003. ICDM 2003. Third IEEE International Conference on},
+  pages={211--218},
+  year={2003},
+  organization={IEEE}
+}
+
+@article{dasgupta2003elementary,
+  title={An elementary proof of a theorem of {J}ohnson and {L}indenstrauss},
+  author={Dasgupta, Sanjoy and Gupta, Anupam},
+  journal={Random Structures \& Algorithms},
+  volume={22},
+  number={1},
+  pages={60--65},
+  year={2003},
+  publisher={Wiley Online Library}
+}
+
+@article{matouvsek2008variants,
+  title={On variants of the {J}ohnson--{L}indenstrauss lemma},
+  author={Matou{\v{s}}ek, Ji{\v{r}}{\'\i}},
+  journal={Random Structures \& Algorithms},
+  volume={33},
+  number={2},
+  pages={142--156},
+  year={2008},
+  publisher={Wiley Online Library}
+}
+
+@inproceedings{negahban2009unified,
+  title={A unified framework for high-dimensional analysis of M-estimators with decomposable regularizers},
+  author={Negahban, Sahand and Yu, Bin and Wainwright, Martin J and Ravikumar, Pradeep K},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={1348--1356},
+  year={2009}
+}
+
+@inproceedings{mcdonald2009efficient,
+  title={Efficient large-scale distributed training of conditional maximum entropy models},
+  author={McDonald, Ryan and Mohri, Mehryar and Silberman, Nathan and Walker, Dan and Mann, Gideon S},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={1231--1239},
+  year={2009}
+}
+
+@inproceedings{zinkevich2010parallelized,
+  title={Parallelized stochastic gradient descent},
+  author={Zinkevich, Martin and Weimer, Markus and Li, Lihong and Smola, Alex J},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2595--2603},
+  year={2010}
+}
+
+@incollection{vershynin2010introduction,
+  title={Introduction to the non-asymptotic analysis of random matrices},
+  author={Vershynin, Roman},
+  chapter=5,
+  booktitle={Compressed Sensing, Theory and Applications},
+  editor={Y. Eldar and G. Kutyniok},
+  year={2012}
+}
+
+@article{boyd2011distributed,
+  title={Distributed optimization and statistical learning via the alternating direction method of multipliers},
+  author={Boyd, Stephen and Parikh, Neal and Chu, Eric and Peleato, Borja and Eckstein, Jonathan},
+  journal={Foundations and Trends{\textregistered} in Machine Learning},
+  volume={3},
+  number={1},
+  pages={1--122},
+  year={2011},
+  publisher={Now Publishers Inc.}
+}
+
+
+@article{spokoiny2012parametricestimation,
+  title={Parametric estimation. Finite sample theory},
+  author={Spokoiny, Vladimir},
+  journal={The Annals of Statistics},
+  volume={40},
+  number={6},
+  pages={2877--2909},
+  year={2012},
+  publisher={Institute of Mathematical Statistics}
+}
+
+@inproceedings{zhang2012communication,
+  title={Communication-efficient algorithms for statistical optimization},
+  author={Zhang, Yuchen and Wainwright, Martin J and Duchi, John C},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={1502--1510},
+  year={2012}
+}
+
+@article{liu2012distributed,
+  title={Distributed parameter estimation via pseudo-likelihood},
+  author={Liu, Qiang and Ihler, Alexander},
+  journal={arXiv preprint arXiv:1206.6420},
+  year={2012}
+}
+
+@article{hsu2012tail,
+  title={A tail inequality for quadratic forms of subgaussian random vectors},
+  author={Hsu, Daniel and Kakade, Sham M and Zhang, Tong and others},
+  journal={Electron. Commun. Probab},
+  volume={17},
+  number={52},
+  pages={1--6},
+  year={2012}
+}
+
+@inproceedings{zhang2013information,
+  title={Information-theoretic lower bounds for distributed statistical estimation with communication constraints},
+  author={Zhang, Yuchen and Duchi, John and Jordan, Michael I and Wainwright, Martin J},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2328--2336},
+  year={2013}
+}
+
+@inproceedings{zhang2013divide,
+  title={Divide and Conquer Kernel Ridge Regression.},
+  author={Zhang, Yuchen and Duchi, John C and Wainwright, Martin J},
+  booktitle={COLT},
+  year={2013}
+}
+
+@inproceedings{li2014scaling,
+  title={Scaling Distributed Machine Learning with the Parameter Server.},
+  author={Li, Mu and Andersen, David G and Park, Jun Woo},
+  journal={OSDI},
+  year=2014
+}
+
+@article{vw,
+  author={Langford, John},
+  title={Vowpal Wabbit open source project}
+}
+
+@article{agarwal2014reliable,
+  title={A reliable effective terascale linear learning system.},
+  author={Agarwal, Alekh and Chapelle, Olivier and Langford, John},
+  journal={Journal of Machine Learning Research},
+  volume={15},
+  number={1},
+  pages={1111--1133},
+  year={2014}
+}
+
+@inproceedings{liu2014distributed,
+  title={Distributed estimation, information loss and exponential families},
+  author={Liu, Qiang and Ihler, Alexander T},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={1098--1106},
+  year={2014}
+}
+
+@inproceedings{shamir2014fundamental,
+  title = {Fundamental Limits of Online and Distributed Algorithms for Statistical Learning and Estimation},
+  author = {Shamir, Ohad},
+  booktitle = {Advances in Neural Information Processing Systems 27},
+  pages = {163--171},
+  year = {2014}
+}
+
+@article{duchi2014optimality,
+  title={Optimality guarantees for distributed statistical estimation},
+  author={Duchi, John C and Jordan, Michael I and Wainwright, Martin J and Zhang, Yuchen},
+  journal={arXiv preprint arXiv:1405.0782},
+  year={2014}
+}
+
+@inproceedings{garg2014communication,
+  title={On communication cost of distributed statistical estimation and dimensionality},
+  author={Garg, Ankit and Ma, Tengyu and Nguyen, Huy},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2726--2734},
+  year={2014}
+}
+
+@book{shalev2014understanding,
+  title={Understanding machine learning: From theory to algorithms},
+  author={Shalev-Shwartz, Shai and Ben-David, Shai},
+  year={2014},
+  publisher={Cambridge University Press}
+}
+
+@article{braverman2015communication,
+  title={Communication lower bounds for statistical estimation problems via a distributed data processing inequality},
+  author={Braverman, Mark and Garg, Ankit and Ma, Tengyu and Nguyen, Huy L and Woodruff, David P},
+  journal={Symposium on the Theory of Computing},
+  year={2016}
+}
+
+@inproceedings{sivakumar2015beyond,
+  title={Beyond Sub-Gaussian Measurements: High-Dimensional Structured Estimation with Sub-Exponential Designs},
+  author={Sivakumar, Vidyashankar and Banerjee, Arindam and Ravikumar, Pradeep K},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2206--2214},
+  year={2015}
+}
+
+@article{lee2015communication,
+  title={Communication-efficient sparse regression: a one-shot approach},
+  author={Lee, Jason D and Sun, Yuekai and Liu, Qiang and Taylor, Jonathan E},
+  journal={arXiv preprint arXiv:1503.04337},
+  year={2015}
+}
+
+@article{battey2015distributed,
+  title={Distributed estimation and inference with statistical guarantees},
+  author={Battey, Heather and Fan, Jianqing and Liu, Han and Lu, Junwei and Zhu, Ziwei},
+  journal={arXiv preprint arXiv:1509.05457},
+  year={2015}
+}
+
+@article{han2016bootstrap,
+  title={Bootstrap Model Aggregation for Distributed Statistical Learning},
+  author={Han, Jun and Liu, Qiang},
+  journal={Advances in Neural Information Processing Systems},
+  year={2016}
+}
+
+@article{rosenblatt2016optimality,
+  title={On the optimality of averaging in distributed statistical learning},
+  author={Rosenblatt, Jonathan D and Nadler, Boaz},
+  journal={Information and Inference},
+  volume={5},
+  number={4},
+  pages={379--404},
+  year={2016},
+  publisher={Oxford University Press}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@inproceedings{dean2012large,
+  title={Large scale distributed deep networks},
+  author={Dean, Jeffrey and Corrado, Greg and Monga, Rajat and Chen, Kai and Devin, Matthieu and Mao, Mark and Senior, Andrew and Tucker, Paul and Yang, Ke and Le, Quoc V and others},
+  booktitle={Advances in neural information processing systems},
+  pages={1223--1231},
+  year={2012}
+}
+
+@inproceedings{denil2013predicting,
+  title={Predicting parameters in deep learning},
+  author={Denil, Misha and Shakibi, Babak and Dinh, Laurent and de Freitas, Nando and others},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2148--2156},
+  year={2013}
+}
+
+@article{goodfellow2014qualitatively,
+  title={Qualitatively characterizing neural network optimization problems},
+  author={Goodfellow, Ian J and Vinyals, Oriol and Saxe, Andrew M},
+  journal={ICLR},
+  year={2015}
+}
+
+@inproceedings{shokri2015privacy,
+  title={Privacy-preserving deep learning},
+  author={Shokri, Reza and Shmatikov, Vitaly},
+  booktitle={Proceedings of the 22nd ACM SIGSAC conference on computer and communications security},
+  pages={1310--1321},
+  year={2015},
+  organization={ACM}
+}
+
+@article{konevcny2016federated,
+  title={Federated learning: Strategies for improving communication efficiency},
+  author={Kone{\v{c}}n{\`y}, Jakub and McMahan, H Brendan and Yu, Felix X and Richt{\'a}rik, Peter and Suresh, Ananda Theertha and Bacon, Dave},
+  journal={arXiv preprint arXiv:1610.05492},
+  year={2016}
+}
+
+@article{bonawitz2016practical,
+  title={Practical Secure Aggregation for Federated Learning on User-Held Data},
+  author={Bonawitz, Keith and Ivanov, Vladimir and Kreuter, Ben and Marcedone, Antonio and McMahan, H Brendan and Patel, Sarvar and Ramage, Daniel and Segal, Aaron and Seth, Karn},
+  journal={arXiv preprint arXiv:1611.04482},
+  year={2016}
+}
+
+@article{mcmahan2016federated,
+  author    = {H. Brendan McMahan and
+               Eider Moore and
+               Daniel Ramage and
+               Blaise Ag{\"{u}}era y Arcas},
+  title     = {Federated Learning of Deep Networks using Model Averaging},
+  journal   = {CoRR},
+  volume    = {abs/1602.05629},
+  year      = {2016},
+  url       = {http://arxiv.org/abs/1602.05629},
+  timestamp = {Tue, 01 Mar 2016 17:47:25 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/corr/McMahanMRA16},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{abadi2016deep,
+  title={Deep learning with differential privacy},
+  author={Abadi, Mart{\'\i}n and Chu, Andy and Goodfellow, Ian and McMahan, H Brendan and Mironov, Ilya and Talwar, Kunal and Zhang, Li},
+  booktitle={Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security},
+  pages={308--318},
+  year={2016},
+  organization={ACM}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{sweeney2002k,
+  title={k-anonymity: A model for protecting privacy},
+  author={Sweeney, Latanya},
+  journal={International Journal of Uncertainty, Fuzziness and Knowledge-Based Systems},
+  volume={10},
+  number={05},
+  pages={557--570},
+  year={2002},
+  publisher={World Scientific}
+}
+
+@article{nytimes2006user,
+  title={A Face Is Exposed for AOL Searcher No. 4417749},
+  author={Michael Barbaro and Tom Zeller Jr.},
+  journal={The New York Times},
+  year={2006},
+  url={http://www.nytimes.com/2006/08/09/technology/09aol.html}
+  }
+
+@article{machanavajjhala2007diversity,
+  title={l-diversity: Privacy beyond k-anonymity},
+  author={Machanavajjhala, Ashwin and Kifer, Daniel and Gehrke, Johannes and Venkitasubramaniam, Muthuramakrishnan},
+  journal={ACM Transactions on Knowledge Discovery from Data (TKDD)},
+  volume={1},
+  number={1},
+  pages={3},
+  year={2007},
+  publisher={ACM}
+}
+
+@inproceedings{li2007t,
+  title={t-closeness: Privacy beyond k-anonymity and l-diversity},
+  author={Li, Ninghui and Li, Tiancheng and Venkatasubramanian, Suresh},
+  booktitle={Data Engineering, 2007. ICDE 2007. IEEE 23rd International Conference on},
+  pages={106--115},
+  year={2007},
+  organization={IEEE}
+}
+
+@article{homer2008resolving,
+  title={Resolving individuals contributing trace amounts of DNA to highly complex mixtures using high-density SNP genotyping microarrays},
+  author={Homer, Nils and Szelinger, Szabolcs and Redman, Margot and Duggan, David and Tembe, Waibhav and Muehling, Jill and Pearson, John V and Stephan, Dietrich A and Nelson, Stanley F and Craig, David W},
+  journal={PLoS Genet},
+  volume={4},
+  number={8},
+  pages={e1000167},
+  year={2008},
+  publisher={Public Library of Science}
+}
+
+@inproceedings{narayanan2008robust,
+  title={Robust de-anonymization of large sparse datasets},
+  author={Narayanan, Arvind and Shmatikov, Vitaly},
+  booktitle={Security and Privacy, 2008. SP 2008. IEEE Symposium on},
+  pages={111--125},
+  year={2008},
+  organization={IEEE}
+}
+
+@inproceedings{ganta2008composition,
+  title={Composition attacks and auxiliary information in data privacy},
+  author={Ganta, Srivatsava Ranjit and Kasiviswanathan, Shiva Prasad and Smith, Adam},
+  booktitle={Proceedings of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining},
+  pages={265--273},
+  year={2008},
+  organization={ACM}
+}
+
+@inproceedings{machanavajjhala2008privacy,
+  title={Privacy: Theory meets practice on the map},
+  author={Machanavajjhala, Ashwin and Kifer, Daniel and Abowd, John and Gehrke, Johannes and Vilhuber, Lars},
+  booktitle={Data Engineering, 2008. ICDE 2008. IEEE 24th International Conference on},
+  pages={277--286},
+  year={2008},
+  organization={IEEE}
+}
+
+@inproceedings{reed2010differential,
+  title={Differential privacy for collaborative security},
+  author={Reed, Jason and Aviv, Adam J and Wagner, Daniel and Haeberlen, Andreas and Pierce, Benjamin C and Smith, Jonathan M},
+  booktitle={Proceedings of the Third European Workshop on System Security},
+  pages={1--7},
+  year={2010},
+  organization={ACM}
+}
+
+@article{mcsherry2010privacy,
+    author = {McSherry, Frank},
+    title = {Privacy Integrated Queries},
+    year = {2010},
+    month = {September},
+    publisher = {Association for Computing Machinery, Inc.},
+    url = {https://www.microsoft.com/en-us/research/publication/privacy-integrated-queries-2/},
+    journal = {Communications of the ACM},
+}
+
+@inproceedings{roy2010airavat,
+  title={Airavat: security and privacy for MapReduce},
+  author={Roy, Indrajit and Setty, Srinath TV and Kilzer, Ann and Shmatikov, Vitaly and Witchel, Emmett},
+  booktitle={Proceedings of the 7th USENIX conference on Networked systems design and implementation},
+  pages={20--20},
+  year={2010},
+  organization={USENIX Association}
+}
+
+@article{lindell2011practical,
+  title={A Practical Application of Differential Privacy to Personalized Online Advertising.},
+  author={Lindell, Yehuda and Omri, Eran},
+  journal={IACR Cryptology EPrint Archive},
+  year={2011}
+}
+
+@inproceedings{kifer2011no,
+  title={No free lunch in data privacy},
+  author={Kifer, Daniel and Machanavajjhala, Ashwin},
+  booktitle={Proceedings of the 2011 ACM SIGMOD International Conference on Management of data},
+  pages={193--204},
+  year={2011},
+  organization={ACM}
+}
+
+@inproceedings{graepel2012ml,
+  title={ML confidential: Machine learning on encrypted data},
+  author={Graepel, Thore and Lauter, Kristin and Naehrig, Michael},
+  booktitle={International Conference on Information Security and Cryptology},
+  pages={1--21},
+  year={2012},
+  organization={Springer}
+}
+
+@inproceedings{dankar2012application,
+  title={The application of differential privacy to health data},
+  author={Dankar, Fida Kamal and El Emam, Khaled},
+  booktitle={Proceedings of the 2012 Joint EDBT/ICDT Workshops},
+  pages={158--166},
+  year={2012},
+  organization={ACM}
+}
+
+@inproceedings{wainwright2012privacy,
+  title={Privacy aware learning},
+  author={Wainwright, Martin J and Jordan, Michael I and Duchi, John C},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={1430--1438},
+  year={2012}
+}
+
+@article{malin2013biomedical,
+  title={Biomedical data privacy: problems, perspectives, and recent advances},
+  author={Malin, Bradley A and Emam, Khaled El and O'keefe, Christine M},
+  journal={Journal of the American medical informatics association},
+  volume={20},
+  number={1},
+  pages={2--6},
+  year={2013},
+  publisher={Oxford University Press}
+}
+
+@inproceedings{erlingsson2014rappor,
+  title={Rappor: Randomized aggregatable privacy-preserving ordinal response},
+  author={Erlingsson, {\'U}lfar and Pihur, Vasyl and Korolova, Aleksandra},
+  booktitle={Proceedings of the 2014 ACM SIGSAC conference on computer and communications security},
+  pages={1054--1067},
+  year={2014},
+  organization={ACM}
+}
+
+@article{dwork2014algorithmic,
+  title={The algorithmic foundations of differential privacy},
+  author={Dwork, Cynthia and Roth, Aaron and others},
+  journal={Foundations and Trends{\textregistered} in Theoretical Computer Science},
+  volume={9},
+  number={3--4},
+  pages={211--407},
+  year={2014},
+  publisher={Now Publishers, Inc.}
+}
+
+@article{hu2015differential,
+ author = {Hu, Xueyang and Yuan, Mingxuan and Yao, Jianguo and Deng, Yu and Chen, Lei and Yang, Qiang and Guan, Haibing and Zeng, Jia},
+ title = {Differential Privacy in Telco Big Data Platform},
+ journal = {Proc. VLDB Endow.},
+ issue_date = {August 2015},
+ volume = {8},
+ number = {12},
+ month = aug,
+ year = {2015},
+ issn = {2150-8097},
+ pages = {1692--1703},
+ numpages = {12},
+ url = {http://dx.doi.org/10.14778/2824032.2824067},
+ doi = {10.14778/2824032.2824067},
+ acmid = {2824067},
+ publisher = {VLDB Endowment},
+} 
+
+@inproceedings{hamm2015crowd,
+  title={Crowd-ml: A privacy-preserving learning framework for a crowd of smart devices},
+  author={Hamm, Jihun and Champion, Adam C and Chen, Guoxing and Belkin, Mikhail and Xuan, Dong},
+  booktitle={Distributed Computing Systems (ICDCS), 2015 IEEE 35th International Conference on},
+  pages={11--20},
+  year={2015},
+  organization={IEEE}
+}
+
+@article{ji2016differential,
+  author    = {Zhanglong Ji and
+               Zachary Chase Lipton and
+               Charles Elkan},
+  title     = {Differential Privacy and Machine Learning: a Survey and Review},
+  journal   = {CoRR},
+  volume    = {abs/1412.7584},
+  year      = {2014},
+  url       = {http://arxiv.org/abs/1412.7584},
+  timestamp = {Thu, 01 Jan 2015 19:51:08 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/corr/JiLE14},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{fanti2016building,
+  title={Building a RAPPOR with the unknown: Privacy-preserving learning of associations and data dictionaries},
+  author={Fanti, Giulia and Pihur, Vasyl and Erlingsson, {\'U}lfar},
+  journal={Proceedings on Privacy Enhancing Technologies},
+  volume={2016},
+  number={3},
+  pages={41--61},
+  year={2016}
+}
+
+@article{wired2016apple,
+  title = {Apple’s ‘Differential Privacy’ Is About Collecting Your Data---But Not Your Data},
+  author = {Andy Greenberg},
+  year = {2016},
+  url = {https://www.wired.com/2016/06/apples-differential-privacy-collecting-data/}
+}
+
+@inproceedings{jansen2016tor,
+ author = {Jansen, Rob and Johnson, Aaron},
+ title = {Safely Measuring Tor},
+ booktitle = {Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security},
+ series = {CCS '16},
+ year = {2016},
+ isbn = {978-1-4503-4139-4},
+ location = {Vienna, Austria},
+ pages = {1553--1567},
+ numpages = {15},
+ url = {http://doi.acm.org/10.1145/2976749.2978310},
+ doi = {10.1145/2976749.2978310},
+ acmid = {2978310},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Tor, anonymity, anonymous communication, differential privacy, network measurement, secure aggregation},
+} 
+
+@inproceedings{qin2016heavy,
+  title={Heavy Hitter Estimation over Set-Valued Data with Local Differential Privacy},
+  author={Qin, Zhan and Yang, Yin and Yu, Ting and Khalil, Issa and Xiao, Xiaokui and Ren, Kui},
+  booktitle={Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security},
+  pages={192--203},
+  year={2016},
+  organization={ACM}
+}
+
+@article{nguyen2016collecting,
+  title={Collecting and Analyzing Data from Smart Device Users with Local Differential Privacy},
+  author={Nguy{\^e}n, Th{\^o}ng T and Xiao, Xiaokui and Yang, Yin and Hui, Siu Cheung and Shin, Hyejin and Shin, Junbum},
+  journal={arXiv preprint arXiv:1606.05053},
+  year={2016}
+}
+
+@article{kenthapadi2017bringing,
+  title={Bringing Salary Transparency to the World: Computing Robust Compensation Insights via LinkedIn Salary},
+  author={Kenthapadi, Krishnaram and Ambler, Stuart and Zhang, Liang and Agarwal, Deepak},
+  journal={arXiv preprint arXiv:1703.09845},
+  year={2017}
+}
+\end{filecontents}
+\immediate\write18{bibtex paper}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Public Machine Learning that Protects Private Information}
+\subtitle{[extended abstract]}
+%Format\titlenote{(Does NOT produce the permission block, copyright information nor page numbering). For use with ACM\_PROC\_ARTICLE-SP.CLS. Supported by ACM.}}
+%\subtitle{[Extended Abstract]
+%\titlenote{A full version of this paper is available as
+%\textit{Author's Guide to Preparing ACM SIG Proceedings Using
+%\LaTeX$2_\epsilon$\ and BibTeX} at
+%\texttt{www.acm.org/eaddress.htm}}}
+
+%
+% You need the command \numberofauthors to handle the 'placement
+% and alignment' of the authors beneath the title.
+%
+% For aesthetic reasons, we recommend 'three authors at a time'
+% i.e. three 'name/affiliation blocks' be placed beneath the title.
+%
+% NOTE: You are NOT restricted in how many 'rows' of
+% "name/affiliations" may appear. We just ask that you restrict
+% the number of 'columns' to three.
+%
+% Because of the available 'opening page real-estate'
+% we ask you to refrain from putting more than six authors
+% (two rows with three columns) beneath the article title.
+% More than six makes the first-page appear very cluttered indeed.
+%
+% Use the \alignauthor commands to handle the names
+% and affiliations for an 'aesthetic maximum' of six authors.
+% Add names, affiliations, addresses for
+% the seventh etc. author(s) as the argument for the
+% \additionalauthors command.
+% These 'additional authors' will be output/set for you
+% without further effort on your part as the last section in
+% the body of your article BEFORE References or any Appendices.
+
+\numberofauthors{1} %  in this sample file, there are a *total*
+% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+% reasons) and the remaining two appear in the \additionalauthors section.
+%
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Mike Izbicki\\
+       \affaddr{UC Riverside}\\
+       \affaddr{900 University Ave.}\\
+       \affaddr{Riverside, CA 92521}\\
+       \email{mike@izbicki.me}
+}
+
+\maketitle
+\begin{abstract}
+    Differential privacy is a mathematical technique for applying machine learning to sensitive information. 
+    Mention cloud, internet of things
+\end{abstract}
+
+%% A category with the (minimum) three required fields
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
+%%A category including the fourth, optional field follows...
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+
+%\terms{Theory}
+%\keywords{ACM proceedings, \LaTeX, text tagging} % NOT required for Proceedings
+
+\section{Intro}
+    Whenever we deploy a machine learning model, 
+    we release information about the dataset the model was trained on.
+    When the underlying data is sensitive (e.g. contains health record information),
+    this sensitive information may leak to the public.
+
+\subsection{applications}
+The medical history of Massachusets governor William Welds was discovered in a public health database \cite{sweeney2002k}.
+\cite{homer2008resolving} show how to determine whether a person participated in a DNA study.
+\cite{narayanan2008robust} showed how to deanonymize the NETFLIX prize data.
+\cite{nytimes2006user} chronicles a bad release of search data by AOL.
+
+Microsoft has a C\# library for adding differential privacy to SQL-like queries \cite{mcsherry2010privacy}.
+The focus is for nonexperts to be able to run queries with guaranteed privacy.
+\cite{roy2010airavat} provides a differentially private interface to Hadoop's MapReduce for cloud computing.
+***\cite{hamm2015crowd} provide a library for differentially private, cloud based smart devices.
+\cite{qin2016heavy}
+
+\cite{machanavajjhala2008privacy} shows how the US Census bureau releases traffic congestion information without releasing identifying details.
+
+\cite{lindell2011practical} show how to use differential privacy to prevent internet add campaigns from leaking information.
+
+\cite{reed2010differential} allow cloud services to share statistics that help detect botnets without revealing confidential information about users.
+
+\cite{erlingsson2014rappor} and \cite{fanti2016building} shows how Google uses differential privacy to aggregate statistics of Chrome users.
+*** \cite{jansen2016tor} uses differential privacy to map out statistics of the TOR network.
+
+\cite{kenthapadi2017bringing} describes salary aggregation at LinkedIn.
+
+\cite{malin2013biomedical} argue that existing differential privacy mechanisms are not good enough.
+In order to get reasonable privacy guarantees, we sacrifice too much utility.
+They use medical case study of applying warafin (a blood thinning drug) to stroke patients.
+The patient's response to warafin exhibits a complex dose response relationship affected by genetic markers.
+The learning procedure tries to protect the patient's genetic information while giving a useful model to clinicians.
+
+\cite{hu2015differential} argues that existing privacy guarantees are not good enough for telecommunications applications.
+
+\subsection{Models of privacy}
+
+Many models of privacy have been proposed.
+Prominent examples include $k$-anonymity \cite{sweeny2002k}, $l$-diversity \cite{machanavajjhala2007diversity}, $t$-closeness \cite{li2007t}.
+Differential privacy is the strongest of these notions of privacy.
+All of these models are subject to so called \emph{composition attacks} where external data is used \cite{ganta2008composition}.
+Differential privacy, however, is robust even to this type of attack.
+
+\cite{dwork2014algorithmic} is a book on differential privacy.
+
+\cite{kifer2011no} provide a good introduction to the types of data that differential privacy is good for.
+Roughly, whenever the data is independent, differential privacy is good.
+The quality of the model depends on the background knowledge of the adversary.
+
+An orthogonal technique for preserving the privacy of data is called homomorphic encryption.
+Homomorphic encryption allows training a model on untrusted hardware \cite{graepel2012ml}.
+For example, encrypted data could be uploaded to a cloud computing provider.
+Using homomorphic encryption, the cloud computer would perform the machine learning without decrypting the data.
+The user then downloads the results.
+Differential privacy is used to protect data when a model has been released publicly 
+(without considering the hardware it was trained on);
+homomorphic encryption is used to protect data when a model is trained on untrusted data 
+(without considering how the model will be used after training).
+The methods can be combined.
+Learning with homomorphic encryption is orders of magnitude slower than standard learning methods,
+and therefore not used in practice.
+In contrast, differential privacy does not add any overhead to the learning process and is heavily used.
+
+Mandatory Access Controls are related to homomorphic encryption.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Differential Privacy}
+
+A good tutorial on differentially private machine learning is \cite{ji2016differential}
+\cite{shokri2015privacy,abadi2016deep} study differential privacy in machine learning.
+\cite{wainwright2012privacy} discus local differential privacy.
+\cite{nguyen2016collecting} discuses local dp with better applications to ML; claim the best technique for averaging, which might be useful.
+
+\begin{defn}
+    A \emph{mechanism} is a function $\tilde f : X \to A$ that takes as input a data base and outputs a random variable.
+\end{defn}
+
+\begin{defn}
+    Let $X$ and $Y$ denote two databases.
+    The function $d(X,Y)$ represents the distance between these databases.
+\end{defn}
+
+\begin{defn}
+    Let $\epsilon$ and $\delta$ be non-negative real numbers.
+    A mechanism $\tilde f$ satisfies $(\epsilon,\delta)$-\emph{differential privacy} if
+    \begin{equation}
+        P() \le \exp(\epsilon)P()
+    \end{equation}
+\end{defn}
+
+\begin{defn}
+    Let $X$ be a database.
+    We call a function $f : X \to S$ a \emph{query} on the database.
+\end{defn}
+
+\subsection{Example: private population mean}
+
+\section{Differentially Private Learning}
+
+
+
+\section{Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{paper}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

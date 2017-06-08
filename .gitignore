@@ -1,0 +1,13 @@
+*.aux
+*.auf
+*.log
+*.pdf
+*.pdfsync
+*.gz
+*.out
+*.bbl
+*.bib
+*.blg
+
+*.swp
+*.swo
